@@ -17,7 +17,23 @@ class BSTNode:
 
     # Insert the given value into the tree
     def insert(self, value):
-        pass
+        # self.left and/or self.right need to be valid nodes
+        # for us to call insert on them
+        if value < self.value:
+            # check if self.left is a valid node
+            if self.left:
+                self.left.insert(value)
+            # the left side is empty (can park)
+            else:
+                # we've found a valid parking spot
+                self.left = BinarySearchTreeNode(value)
+        # otherwise value is >= self.value
+        else:
+            if self.right:
+                self.right.insert(value)
+            # if no right hand value
+            else:
+                self.right = BinarySearchTreeNode(value)
 
     # Return True if the tree contains the value
     # False if it does not

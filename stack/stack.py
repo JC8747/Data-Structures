@@ -10,23 +10,97 @@ return elements in Last In First Out order.
 3. What is the difference between using an array vs. a linked list when
    implementing a Stack?
 """
-import sys
-sys.path.append ('../singly_linked_list')
-from singly_linked_list import LinkedList
+class Node:
+    def __init__(self, value=None, next_node=None):
+        self.value = value
+        self.next_node = next_node
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def add_to_head(self, value):
+        new_node = Node(value)
+        if self.head is None and self.tail is None:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.next_node = self.head
+            self.head = new_node
+
+    def add_to_tail(self, value):
+        new_node = Node(value)
+        if self.head is None and self.tail is None:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            self.tail.next_node = new_node
+            self.tail = new_node
+
+    def remove_head(self):
+        if not self.head:
+            return None
+        if self.head.next_node is None:
+            head_value = self.head.value
+            self.head = None
+            self.tail = None
+            return head_value
+        head_value = self.head.value
+        self.head = self.head.next_node
+        return head_value
+
+    def remove_tail(self):
+        if not self.head:
+            return None
+        if self.head is self.tail:
+            value = self.head.value
+            self.head = None
+            self.tail = None
+            return value
+        current = self.head
+        while current.next_node is not self.tail:
+            current = current.next_node
+        value = self.tail.value
+        self.tail = current
+        return value
+
+    def contains(self, value):
+        if self.head is None:
+            return False
+        current_node = self.head
+        while current_node is not None:
+            if current_node.value == value:
+                return True
+            current_node = current_node.next_node
+        return False
+
+    def get_max(self):
+        if self.head is None:
+            return None
+        max_value = self.head.value
+        current = self.head.next_node
+        while current:
+            if current.value > max_value:
+                max_value = current.value
+            current = current.next_node
+        return max_value
+
 class Stack:
     def __init__(self):
         self.size = 0
-        self.storage = []
+        self.storage = LinkedList()
+
     def __len__(self):
         return self.size
 
     def push(self, value):
         self.size += 1
-        self.storage.add_to_head(value)
+        self.storage.add_to_tail(value)
 
     def pop(self):
-        if self.size > 0:
-            self.size -= 1
-            return self.storage.remove_from_head()
+        if self.size == 0:
+            return None
         else:
-            print('Empty Stack')
+            self.size -= 1
+            return self.storage.remove_tail()
