@@ -20,30 +20,29 @@ class BSTNode:
     # Insert the given value into the tree
     def insert(self, value):
         if value < self.value:
-            if self.left:
-                self.left.insert(value)
-            else:
+            if self.left is None:
                 self.left = BSTNode(value)
-        else:
-            if self.right:
-                self.right.insert(value)
             else:
+                self.left.insert(value)
+        else:
+            if self.right is None:
                 self.right = BSTNode(value)
+            else:
+                self.right.insert(value)
 
     def contains(self, target):
         if target == self.value:
             return True
         if target < self.value:
-            if self.left:
+            if self.left is None:
+                return False
+            else:
                 return self.left.contains(target)
-            else:
-                return False
         else:
-            if self.right:
-                return self.right.contains(target)
-            else:
+            if self.right is None:
                 return False
-        return self.value
+            else:
+                return self.right.contains(target)
 
     # Return the maximum value found in the tree
     def get_max(self):
@@ -101,19 +100,20 @@ class BSTNode:
     # Note: Research may be required
 
     # Print Pre-order recursive DFT
-    def pre_order_dft(self, node):
-        pass
+#    def pre_order_dft(self, node):
+#        pass
 
     # Print Post-order recursive DFT
-    def post_order_dft(self, node):
-        pass
+#    def post_order_dft(self, node):
+#        pass
 
 
 bst = BSTNode(1)
-bst.insert(2)
+bst.insert(8)
+bst.insert(5)
+bst.insert(7)
+bst.insert(6)
 bst.insert(3)
 bst.insert(4)
-bst.insert(5)
-
+bst.insert(2)
 bst.in_order_print(bst)
-print('---------------')
